@@ -1,7 +1,5 @@
 module SmartApi
   class EndpointDescriptor
-    ParamDescriptor = Struct.new(:name, :type, :optional)
-
     attr_reader :controller, :action_name, :text_desc, :method, :content_types, :params
 
     def initialize(controller, action_name, text_desc, opts = {})
@@ -24,6 +22,12 @@ module SmartApi
       end
 
       @params.freeze
+    end
+
+    class ParamDescriptor < Struct.new(:name, :type, :optional)
+      def optional?
+        self.optional ? true : false
+      end
     end
   end
 end
