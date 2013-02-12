@@ -31,7 +31,11 @@ module SmartApi
         end
       end
 
-      [new_params.freeze, errors.freeze]
+      Parameters.new(new_params.freeze, errors.freeze)
+    end
+
+    class Parameters < Struct.new(:values, :errors)
+      delegate :has_key?, :==, :[], :to_hash, :to => :values
     end
   end
 end

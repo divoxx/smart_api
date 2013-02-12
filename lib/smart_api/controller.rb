@@ -16,5 +16,11 @@ module SmartApi
         self._endpoint_descriptors[action_name] = Dsl.desc(action_name, *args)
       end
     end
+
+    def params
+      return @_params if @_params
+      desc = self.class.endpoint_descriptor_for(action_name)
+      @_params = ParamsHandler.new(desc).handle(super)
+    end
   end
 end

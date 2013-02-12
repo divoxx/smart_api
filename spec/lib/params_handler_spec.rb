@@ -20,18 +20,18 @@ describe SmartApi::ParamsHandler do
   end
 
   it "typecast defined parameters" do
-    params, errs = subject.handle(valid_params)
+    params = subject.handle(valid_params)
     params.should == { id: 1, name: "rodrigo", rating: 10.0, birthday: Date.civil(1985, 10, 31), updated_at: Time.parse("2013-02-12 14:18:00") }
-    errs.should be_empty
+    params.errors.should be_empty
   end
 
   it "does not accept nil for non optional params" do
-    params, errs = subject.handle(valid_params.except(:id))
-    errs[:id].should == "is required"
+    params = subject.handle(valid_params.except(:id))
+    params.errors[:id].should == "is required"
   end
 
   it "accepts nil for optional params" do
-    params, errs = subject.handle(valid_params.except(:name))
-    errs.should_not have_key(:name)
+    params = subject.handle(valid_params.except(:name))
+    params.errors.should_not have_key(:name)
   end
 end
