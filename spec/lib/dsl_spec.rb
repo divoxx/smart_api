@@ -5,7 +5,7 @@ describe SmartApi::Dsl do
 
   it "creates a endpoint descriptor" do
     stub_desc = mock(:descriptor)
-    SmartApi::EndpointDescriptor.should_receive(:new).with(self, :show, "Retrieves the resource identified by parameter `id`", method: :get, content_type: "application/json", params: { id: { type: :integer } }).and_return(stub_desc)
+    SmartApi::EndpointDescriptor.should_receive(:new).with(self, :show, "Retrieves the resource identified by parameter `id`", method: :get, content_types: ["application/json"], params: { id: { type: :integer } }).and_return(stub_desc)
 
     descriptor =
       desc :show, "Retrieves the resource identified by parameter `id`", method: :get, content_type: "application/json", params: {
