@@ -1,8 +1,12 @@
 require "spec_helper"
 
 describe SmartApi::Controller do
-  let :stub_desc do
-    stub_desc = mock(:endpoint_descriptor)
+  let :param_descs do
+    { id: mock(:param_id_desc) }
+  end
+
+  let :endpoint_desc do
+    stub_desc = mock(:endpoint_desc, params: param_descs)
   end
 
   subject do
@@ -19,18 +23,18 @@ describe SmartApi::Controller do
   end
 
   before do
-    SmartApi::Dsl.stub(:desc).with(:action_name, "Text", params: { id: { type: :integer } }).and_return(stub_desc)
+    SmartApi::Dsl.stub(:desc).with(:action_name, "Text", params: { id: { type: :integer } }).and_return(endpoint_desc)
   end
 
   it "stores endpoint descriptors on the controller" do
-    subject.endpoint_descriptor_for(:action_name).should == stub_desc
+    subject.endpoint_descriptor_for(:action_name).should == endpoint_desc
   end
 
   it "handle parameters" do
     params_handler = mock(:params_handler)
     params = mock(:params)
 
-    SmartApi::ParamsHandler.should_receive(:new).with(stub_desc).and_return(params_handler)
+    SmartApi::ParamsHandler.should_receive(:new).with(param_descs).and_return(params_handler)
     params_handler.should_receive(:handle).with({ id: "1" }).and_return(params)
 
     subject.new.params.should == params

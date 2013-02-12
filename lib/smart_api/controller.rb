@@ -19,8 +19,8 @@ module SmartApi
 
     def params
       return @_params if @_params
-      desc = self.class.endpoint_descriptor_for(action_name)
-      @_params = ParamsHandler.new(desc).handle(super)
+      desc = self.class.endpoint_descriptor_for(action_name.to_sym)
+      @_params = ParamsHandler.new(desc.params).handle(super)
     end
   end
 end
