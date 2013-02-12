@@ -7,8 +7,8 @@ describe SmartApi::Controller do
     end
   end
 
-  it "stores endpoint descriptions on the controller" do
-    stub_desc = mock(:endpoint_description)
+  it "stores endpoint descriptors on the controller" do
+    stub_desc = mock(:endpoint_descriptor)
     SmartApi::Dsl.should_receive(:desc).with(:action_name, "Text").and_return(stub_desc)
     subject.desc :action_name, "Text"
     subject.endpoint_descriptor_for(:action_name).should == stub_desc
