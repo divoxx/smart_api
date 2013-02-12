@@ -8,6 +8,7 @@ describe SmartApi::ParamsHandler do
       rating: mock(:rating_desc, type: :float, optional?: true),
       birthday: mock(:birthday_desc, type: :date, optional?: true),
       updated_at: mock(:updated_at_desc, type: :time, optional?: true),
+      touch: mock(:touch_desc, type: :bool, optional?: true),
      }
   end
 

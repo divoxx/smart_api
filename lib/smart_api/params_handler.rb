@@ -6,6 +6,7 @@ module SmartApi
       float:   ->(v) { Float(v) },
       date:    ->(v) { Date.parse(v) },
       time:    ->(v) { Time.parse(v) },
+      bool:    ->(v) { v == true || v == "1" || v == "t" },
     }
 
     def initialize(descriptors)
