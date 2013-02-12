@@ -36,7 +36,7 @@ module SmartApi
     end
 
     class Parameters < Struct.new(:values, :errors)
-      delegate :has_key?, :==, :[], :to_hash, :to => :values
+      delegate :slice, :except, :has_key?, :==, :[], :to_hash, :to => :values
     end
   end
 end
