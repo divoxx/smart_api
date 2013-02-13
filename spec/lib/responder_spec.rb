@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe SmartApi::Responder do
   let :request do
-    mock(:request, get?: false, post?: false, put?: false, delete?: false)
+    mock(:request, get?: false, post?: false, put?: false, delete?: false, fresh?: false)
   end
 
   let :response do
@@ -61,7 +61,7 @@ describe SmartApi::Responder do
   it "responds with '204 No Content' when successfully updating a resource" do
     request.stub(put?: true)
     resources.last.stub(persisted?: true)
-    controller.should_receive(:render).with(status: :no_content)
+    controller.should_receive(:head).with(:no_content)
     subject.respond
   end
 
