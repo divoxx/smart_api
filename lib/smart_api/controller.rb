@@ -13,6 +13,8 @@ module SmartApi
     include Rails.application.routes.url_helpers
 
     included do
+      self.responder = SmartApi::Responder
+
       class_attribute :_endpoint_descriptors
       self._endpoint_descriptors = {}
     end

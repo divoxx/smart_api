@@ -38,4 +38,8 @@ describe SmartApi::Controller do
 
     subject.new.params.should == params
   end
+
+  it "sets the responder" do
+    subject.responder.should be SmartApi::Responder
+  end
 end
