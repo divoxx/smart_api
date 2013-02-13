@@ -1,11 +1,9 @@
 module SmartApi
   class EndpointDescriptor
-    attr_reader :controller, :action_name, :text_desc, :method, :content_types, :params
+    attr_reader :text_desc, :method, :content_types, :params
 
-    def initialize(controller, action_name, text_desc, opts = {})
-      @controller  = controller
-      @action_name = action_name
-      @text_desc   = text_desc
+    def initialize(text_desc, opts = {})
+      @text_desc = text_desc
       build_from_options(opts)
     end
 

@@ -25,8 +25,11 @@ module SmartApi
           next
         end
 
+        type_cast_func = Converters[desc.type]
+        raise ArgumentError, "unknown type #{desc.type.inspect}" if type_cast_func.nil?
+
         begin
-          new_params[name] = Converters[desc.type].(params_hash[name])
+          new_params[name] = type_cast_func.(params_hash[name])
         rescue TypeError, ArgumentError
           errors[name] = "is not a valid #{desc.type}"
         end
@@ -36,7 +39,7 @@ module SmartApi
     end
 
     class Parameters < Struct.new(:values, :errors)
-      delegate :slice, :except, :has_key?, :==, :[], :to_hash, :to => :values
+      delegate :slice, :except, :values_at, :has_key?, :==, :[], :delete, :fetch, :to_hash, :to => :values
     end
   end
 end

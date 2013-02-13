@@ -21,7 +21,7 @@ describe SmartApi::Controller do
   end
 
   before do
-    SmartApi::Dsl.stub(:desc).with(:action_name, "Text", params: { id: { type: :integer } }).and_return(endpoint_desc)
+    SmartApi::Dsl.stub(:desc).with("Text", params: { id: { type: :integer } }).and_return(endpoint_desc)
     subject.any_instance.stub(action_name: :action_name, request: request)
   end
 

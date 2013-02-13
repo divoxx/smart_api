@@ -16,11 +16,8 @@ module SmartApi
 
     included do
       append_view_path Rails.root.join("app", "views")
-
       self.responder = SmartApi::Responder
-
       class_attribute :_endpoint_descriptors
-      self._endpoint_descriptors = {}
     end
 
     module ClassMethods
@@ -29,14 +26,15 @@ module SmartApi
       end
 
       def desc(action_name, *args)
-        self._endpoint_descriptors[action_name] = Dsl.desc(action_name, *args)
+        self._endpoint_descriptors ||= {}
+        self._endpoint_descriptors[action_name] = Dsl.desc(*args)
       end
     end
 
     def params
-      return @_smart_api_params if @_smart_api_params
+      return @_params if @_params
       desc = self.class.endpoint_descriptor_for(action_name.to_sym)
-      @_smart_api_params = ParamsHandler.new(desc.params).handle(super)
+      @_params = ParamsHandler.new(desc.params).handle(super)
     end
   end
 end

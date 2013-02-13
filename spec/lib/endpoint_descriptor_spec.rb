@@ -7,16 +7,9 @@ describe SmartApi::EndpointDescriptor do
 
   subject do
     described_class.new(
-      controller,
-      :action_name,
       "API Endpoint Description",
       method: :put, content_types: ["application/json"], params: { id: {type: :integer} }
     )
-  end
-
-  it "describes a controller's action" do
-    subject.controller.should be controller
-    subject.action_name.should be :action_name
   end
 
   it "describes the endpoint textually" do
