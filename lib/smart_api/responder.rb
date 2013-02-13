@@ -41,7 +41,7 @@ module SmartApi
         end
 
         if @resource.persisted? && !@resource.changed?
-          @controller.render status: :no_content
+          @controller.head(:no_content)
         else
           @controller.render status: :bad_request, json: { error: "Invalid attributes", attributes: @resource.errors }
         end
