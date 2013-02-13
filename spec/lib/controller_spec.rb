@@ -1,6 +1,10 @@
 require "spec_helper"
 
 describe SmartApi::Controller do
+  let :request do
+    mock(:request, parameters: { "id" => "1" })
+  end
+
   let :param_descs do
     { id: mock(:param_id_desc) }
   end
@@ -10,13 +14,7 @@ describe SmartApi::Controller do
   end
 
   subject do
-    ctrl_methods = Module.new do
-      def params; {id: "1"}; end
-      def action_name; :action_name; end
-    end
-
-    Class.new do
-      include ctrl_methods
+    Class.new(ActionController::Metal) do
       include SmartApi::Controller
       desc :action_name, "Text", params: { id: { type: :integer } }
     end
@@ -24,6 +22,7 @@ describe SmartApi::Controller do
 
   before do
     SmartApi::Dsl.stub(:desc).with(:action_name, "Text", params: { id: { type: :integer } }).and_return(endpoint_desc)
+    subject.any_instance.stub(action_name: :action_name, request: request)
   end
 
   it "stores endpoint descriptors on the controller" do
@@ -35,7 +34,7 @@ describe SmartApi::Controller do
     params = mock(:params)
 
     SmartApi::ParamsHandler.should_receive(:new).with(param_descs).and_return(params_handler)
-    params_handler.should_receive(:handle).with({ id: "1" }).and_return(params)
+    params_handler.should_receive(:handle).with(request.parameters).and_return(params)
 
     subject.new.params.should == params
   end
