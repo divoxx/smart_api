@@ -2,17 +2,21 @@ module SmartApi
   module Controller
     extend ActiveSupport::Concern
 
+    include AbstractController::Callbacks
     include ActionController::ConditionalGet
     include ActionController::Head
     include ActionController::Instrumentation
     include ActionController::MimeResponds
     include ActionController::Redirecting
+    include ActionController::Renderers::All
     include ActionController::Rendering
     include ActionController::Rescue
     include ActionController::UrlFor
     include Rails.application.routes.url_helpers
 
     included do
+      append_view_path Rails.root.join("app", "views")
+
       self.responder = SmartApi::Responder
 
       class_attribute :_endpoint_descriptors
