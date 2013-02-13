@@ -5,8 +5,12 @@ describe SmartApi::Responder do
     mock(:request, get?: false, post?: false, put?: false, delete?: false)
   end
 
+  let :response do
+    mock(:response)
+  end
+
   let :controller do
-    mock(:controller, request: request, stale?: true)
+    mock(:controller, request: request, response: response, render: nil)
   end
 
   let :resources do
@@ -22,15 +26,14 @@ describe SmartApi::Responder do
   end
 
   it "responds with '200 OK' when successfully retrieving a resource" do
-    request.stub(get?: true)
+    request.stub(get?: true, fresh?: false)
     controller.should_receive(:render)
     subject.respond
   end
 
   it "responds with '304 Not Modified' when retrieving a resource which cache is still fresh" do
-    request.stub(get?: true)
+    request.stub(get?: true, fresh?: true)
     controller.should_not_receive(:render)
-    controller.should_receive(:stale?).and_return(false)
     subject.respond
   end
 
