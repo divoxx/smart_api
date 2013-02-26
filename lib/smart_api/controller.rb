@@ -8,8 +8,8 @@ module SmartApi
     include ActionController::Instrumentation
     include ActionController::MimeResponds
     include ActionController::Redirecting
-    include ActionController::Renderers::All
     include ActionController::Rendering
+    include ActionController::Renderers::All
     include ActionController::Rescue
     include ActionController::UrlFor
     include Rails.application.routes.url_helpers
