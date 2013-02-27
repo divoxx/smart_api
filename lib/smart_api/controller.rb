@@ -22,7 +22,7 @@ module SmartApi
 
     module ClassMethods
       def endpoint_descriptor_for(action)
-        self._endpoint_descriptors[action]
+        self._endpoint_descriptors && self._endpoint_descriptors[action]
       end
 
       def desc(action_name, *args)
@@ -33,8 +33,12 @@ module SmartApi
 
     def params
       return @_params if @_params
-      desc = self.class.endpoint_descriptor_for(action_name.to_sym)
-      @_params = ParamsHandler.new(desc.params).handle(super)
+
+      if desc = self.class.endpoint_descriptor_for(action_name.to_sym)
+        @_params = ParamsHandler.new(desc.params).handle(super)
+      else
+        @_params = ParamsHandler.empty
+      end
     end
   end
 end

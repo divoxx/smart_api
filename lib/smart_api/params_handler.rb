@@ -9,6 +9,10 @@ module SmartApi
       bool:    ->(v) { v == true || v == "1" || v == "t" },
     }
 
+    def self.empty
+      @empty ||= Parameters.new({}.freeze, {}.freeze)
+    end
+
     def initialize(descriptors)
       @descriptors = descriptors
     end
