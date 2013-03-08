@@ -17,7 +17,7 @@ module SmartApi
       when @request.get?
         unless cache_fresh?
           if @resource.nil?
-            @controller.render status: :not_found
+            @controller.render status: :not_found, json: { error: "Not found" }
             return
           end
 
@@ -25,7 +25,7 @@ module SmartApi
         end
       when @request.post?
         if @resource.nil?
-          @controller.render status: :not_found
+          @controller.render status: :not_found, json: { error: "Not found" }
           return
         end
 
@@ -36,7 +36,7 @@ module SmartApi
         end
       when @request.put?
         if @resource.nil?
-          @controller.render status: :not_found
+          @controller.render status: :not_found, json: { error: "Not found" }
           return
         end
 
@@ -47,11 +47,11 @@ module SmartApi
         end
       when @request.delete?
         if @resource.nil?
-          @controller.render status: :not_found
+          @controller.render status: :not_found, json: { error: "Not found" }
           return
         end
 
-        @controller.render status: :reset_content
+        @controller.head(:reset_content)
       end
     end
 
